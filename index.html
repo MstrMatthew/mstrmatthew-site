@@ -2,29 +2,96 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>MstrMatthew Stream Schedule</title>
+  <title>MstrMatthew Stream HQ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header class="site-header">
-    <h1>MstrMatthew Stream Rotation</h1>
-    <p class="subtitle">Beast Mode, Grind Week, Cruise Week, Rebuild Week — synced to my real 28-day work cycle.</p>
+  <header class="top-nav">
+    <div class="nav-inner">
+      <div class="nav-brand">
+        <span class="brand-mark">MM</span>
+        <span class="brand-text">MstrMatthew</span>
+      </div>
+      <nav class="nav-links">
+        <a href="#hero">Home</a>
+        <a href="#current-block">Today</a>
+        <a href="#rotation-overview">Rotation</a>
+        <a href="#about">About</a>
+        <a href="#links">Links</a>
+      </nav>
+    </div>
   </header>
 
   <main>
-    <section id="current-block" class="card">
-      <h2>Today’s Status</h2>
-      <p id="today-date"></p>
-      <p id="today-block"></p>
-      <p id="today-stream-window"></p>
+    <!-- Hero / Intro -->
+   <section id="hero" class="section hero">
+  <div class="hero-text">
+    <h1>Welcome to the Stream Rotation HQ</h1>
+    <p>
+      I work 12-hour rotating shifts, so a normal “every Monday/Wednesday/Friday” schedule
+      doesn’t make sense. Instead, everything runs on a 4-week cycle that balances
+      work, sleep, family, and stream energy.
+    </p>
+    <p class="hero-sub">
+      Each week has its own vibe: <strong>Beast Mode, Grind, Cruise, or Rebuild</strong>.
+      This page auto-calculates where we’re at in the rotation so you always know what kind
+      of week it is and what to expect from the stream.
+    </p>
+    <a href="#current-block" class="primary-btn" id="hero-week-btn">CURRENT WEEK</a>
+    <p class="hero-best" id="hero-best-days"></p>
+  </div>
+</section>
+
+
+    <!-- Today’s Status -->
+    <section id="current-block" class="section">
+      <div class="card">
+        <h2>Today’s Status</h2>
+        <p id="today-date" class="today-date"></p>
+        <p id="today-block" class="today-block"></p>
+        <p id="today-stream-window" class="today-stream-window"></p>
+        <p id="today-note-extra" class="today-note-extra"></p>
+      </div>
     </section>
 
-    <section id="rotation-overview" class="card">
-      <h2>28-Day Rotation Overview</h2>
-      <div id="rotation-grid"></div>
+    <!-- Rotation Overview -->
+    <section id="rotation-overview" class="section">
+      <div class="card">
+        <h2>28-Day Rotation Overview</h2>
+        <p class="section-sub">
+          Each block syncs with my actual work schedule (days, nights, and days off).
+          Stream windows are shown as <strong>Full</strong>, <strong>Optional</strong>, or <strong>No Stream</strong>.
+        </p>
+        <div id="rotation-grid"></div>
+      </div>
+    </section>
+
+
+    <!-- Links / Socials -->
+    <section id="links" class="section">
+      <div class="card">
+        <h2>Where to Find Me</h2>
+        <p class="section-sub">
+          Follow here so you don’t miss Beast Mode weeks and surprise streams.
+        </p>
+        <div class="links-grid">
+          <a class="link-pill" href="#" target="_blank" rel="noreferrer">Twitch</a>
+          <a class="link-pill" href="#" target="_blank" rel="noreferrer">YouTube</a>
+          <a class="link-pill" href="#" target="_blank" rel="noreferrer">TikTok</a>
+          <a class="link-pill" href="#" target="_blank" rel="noreferrer">Twitter / X</a>
+          <a class="link-pill" href="#" target="_blank" rel="noreferrer">Discord</a>
+        </div>
+        <p class="links-note">
+          Once we lock your exact URLs, we’ll plug them in here and style them to match your channel branding.
+        </p>
+      </div>
     </section>
   </main>
+
+  <footer class="site-footer">
+    <p>© <span id="footer-year"></span> MstrMatthew · Stream Rotation HQ</p>
+  </footer>
 
   <script src="main.js"></script>
 </body>

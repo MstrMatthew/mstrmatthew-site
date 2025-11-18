@@ -1,21 +1,17 @@
-// ------- CONFIG: anchor + blocks -------
+// ------- CONFIG: anchor + cycle -------
 
-// Anchor: 11/17/2025 is Night 4/4 of Block A (Grind Week)
-const anchorDate = new Date("2025-11-17"); // local time
-const anchorDayIndex = 0; // We'll define this as "Day 0" in the 28-day cycle
+// Anchor: 11/17/2025 is Night 4/4 of Block A (Grind Week), local date.
+const anchorDate = new Date(2025, 10, 17); // year, monthIndex (0-based), day
+const anchorDayIndex = 0; // Treat this day as index 0 in the cycle
 
-// We'll define a 28-day cycle as an array of "days"
-//
-// Each day has:
-// - label: string like "Grind Week – Tuesday"
+// 28-day cycle.
+// Each day:
+// - label: descriptive label
 // - block: "beast" | "grind" | "cruise" | "rebuild"
 // - weekday: "Mon"..."Sun"
-// - shift: "off" | "day" | "night"
+// - shift: "off" | "day" | "night" (for your reference)
 // - stream: "none" | "optional-day" | "optional-night" | "full-day" | "full-night"
-// - note: short description of when you'd actually go live
-//
-// We start the cycle on the Monday of Night 4/4 (Block A),
-// which is 11/17/2025.
+// - note: extra note for days that aren't just a simple full stream
 
 const cycle = [
   // Day 0–6: Block A (Grind Week)
@@ -25,7 +21,7 @@ const cycle = [
     weekday: "Mon",
     shift: "night",
     stream: "optional-day",
-    note: "Optional short daytime stream before Night 4/4.",
+    note: "Possible short daytime stream before Night 4 of 4.",
   },
   {
     label: "Grind Week – Tuesday",
@@ -33,7 +29,7 @@ const cycle = [
     weekday: "Tue",
     shift: "off",
     stream: "full-day",
-    note: "Full stream day (day or night).",
+    note: "",
   },
   {
     label: "Grind Week – Wednesday",
@@ -41,7 +37,7 @@ const cycle = [
     weekday: "Wed",
     shift: "off",
     stream: "full-day",
-    note: "Full stream day (day or night).",
+    note: "",
   },
   {
     label: "Grind Week – Thursday",
@@ -49,7 +45,7 @@ const cycle = [
     weekday: "Thu",
     shift: "off",
     stream: "full-day",
-    note: "Full stream day (day or night).",
+    note: "",
   },
   {
     label: "Grind Week – Friday",
@@ -57,7 +53,7 @@ const cycle = [
     weekday: "Fri",
     shift: "night",
     stream: "none",
-    note: "No stream (night shift + kid pickup).",
+    note: "No stream (night shift plus kid pickup day).",
   },
   {
     label: "Grind Week – Saturday",
@@ -65,7 +61,7 @@ const cycle = [
     weekday: "Sat",
     shift: "night",
     stream: "optional-day",
-    note: "Optional mid-day stream (12–3pm) before night shift.",
+    note: "Possible daytime stream (around 12–3pm) before night shift.",
   },
   {
     label: "Grind Week – Sunday",
@@ -73,7 +69,7 @@ const cycle = [
     weekday: "Sun",
     shift: "night",
     stream: "none",
-    note: "No stream (night 3/4 – recovery focus).",
+    note: "No stream (night 3 of 4 – recovery focus).",
   },
 
   // Day 7–13: Block B (Rebuild Week)
@@ -83,7 +79,7 @@ const cycle = [
     weekday: "Mon",
     shift: "off",
     stream: "optional-day",
-    note: "Optional light stream (short check-in).",
+    note: "Possible light short stream (check-in only).",
   },
   {
     label: "Rebuild Week – Tuesday",
@@ -91,7 +87,7 @@ const cycle = [
     weekday: "Tue",
     shift: "night",
     stream: "none",
-    note: "No stream (shift-swap day, worst sleep).",
+    note: "No stream (shift-swap day: rough sleep).",
   },
   {
     label: "Rebuild Week – Wednesday",
@@ -99,7 +95,7 @@ const cycle = [
     weekday: "Wed",
     shift: "night",
     stream: "optional-day",
-    note: "Optional short daytime stream before night shift.",
+    note: "Possible short daytime stream before night shift.",
   },
   {
     label: "Rebuild Week – Thursday",
@@ -107,7 +103,7 @@ const cycle = [
     weekday: "Thu",
     shift: "night",
     stream: "none",
-    note: "No stream (night 3/3).",
+    note: "No stream (night 3 of 3).",
   },
   {
     label: "Rebuild Week – Friday",
@@ -115,7 +111,7 @@ const cycle = [
     weekday: "Fri",
     shift: "day",
     stream: "none",
-    note: "No stream (day 1/3).",
+    note: "No stream (day 1 of 3).",
   },
   {
     label: "Rebuild Week – Saturday",
@@ -123,7 +119,7 @@ const cycle = [
     weekday: "Sat",
     shift: "day",
     stream: "none",
-    note: "No stream (day 2/3).",
+    note: "No stream (day 2 of 3).",
   },
   {
     label: "Rebuild Week – Sunday",
@@ -131,7 +127,7 @@ const cycle = [
     weekday: "Sun",
     shift: "day",
     stream: "none",
-    note: "No stream (day 3/3).",
+    note: "No stream (day 3 of 3).",
   },
 
   // Day 14–20: Block C (Cruise Week)
@@ -141,7 +137,7 @@ const cycle = [
     weekday: "Mon",
     shift: "off",
     stream: "full-day",
-    note: "Full stream day (off).",
+    note: "",
   },
   {
     label: "Cruise Week – Tuesday",
@@ -149,7 +145,7 @@ const cycle = [
     weekday: "Tue",
     shift: "off",
     stream: "full-day",
-    note: "Full stream day (off).",
+    note: "",
   },
   {
     label: "Cruise Week – Wednesday",
@@ -157,7 +153,7 @@ const cycle = [
     weekday: "Wed",
     shift: "off",
     stream: "optional-day",
-    note: "Optional short Sunday-style stream.",
+    note: "Possible shorter stream to protect energy for upcoming shifts.",
   },
   {
     label: "Cruise Week – Thursday",
@@ -165,7 +161,7 @@ const cycle = [
     weekday: "Thu",
     shift: "day",
     stream: "full-night",
-    note: "Post-shift night stream.",
+    note: "Full stream window after work (night stream).",
   },
   {
     label: "Cruise Week – Friday",
@@ -173,7 +169,7 @@ const cycle = [
     weekday: "Fri",
     shift: "day",
     stream: "full-night",
-    note: "Post-shift night stream.",
+    note: "Full stream window after work (night stream).",
   },
   {
     label: "Cruise Week – Saturday",
@@ -189,7 +185,7 @@ const cycle = [
     weekday: "Sun",
     shift: "day",
     stream: "optional-night",
-    note: "Optional night stream (pre-Beast lead-in).",
+    note: "Possible night stream (pre–Beast Mode lead-in).",
   },
 
   // Day 21–27: Block D (Beast Mode Week – 7 off days)
@@ -199,7 +195,7 @@ const cycle = [
     weekday: "Mon",
     shift: "off",
     stream: "full-day",
-    note: "Beast stream (events/collabs).",
+    note: "",
   },
   {
     label: "Beast Mode Week – Tuesday",
@@ -207,7 +203,7 @@ const cycle = [
     weekday: "Tue",
     shift: "off",
     stream: "full-day",
-    note: "Beast stream.",
+    note: "",
   },
   {
     label: "Beast Mode Week – Wednesday",
@@ -215,7 +211,7 @@ const cycle = [
     weekday: "Wed",
     shift: "off",
     stream: "full-day",
-    note: "Beast stream.",
+    note: "",
   },
   {
     label: "Beast Mode Week – Thursday",
@@ -223,7 +219,7 @@ const cycle = [
     weekday: "Thu",
     shift: "off",
     stream: "full-day",
-    note: "Beast stream.",
+    note: "",
   },
   {
     label: "Beast Mode Week – Friday",
@@ -231,7 +227,7 @@ const cycle = [
     weekday: "Fri",
     shift: "off",
     stream: "full-day",
-    note: "Beast stream.",
+    note: "",
   },
   {
     label: "Beast Mode Week – Saturday",
@@ -239,7 +235,7 @@ const cycle = [
     weekday: "Sat",
     shift: "off",
     stream: "none",
-    note: "Rest day.",
+    note: "Rest day (no stream).",
   },
   {
     label: "Beast Mode Week – Sunday",
@@ -247,11 +243,12 @@ const cycle = [
     weekday: "Sun",
     shift: "off",
     stream: "none",
-    note: "Rest day.",
+    note: "Rest day (no stream).",
   },
 ];
 
-// Small helper to format dates
+// ------- Helpers -------
+
 function formatDate(d) {
   return d.toLocaleDateString(undefined, {
     weekday: "long",
@@ -261,16 +258,21 @@ function formatDate(d) {
   });
 }
 
-// Compute which cycle index today is
-function getCycleIndexForDate(date) {
+// Compare by date only (ignore time of day)
+function daysBetween(a, b) {
   const msPerDay = 24 * 60 * 60 * 1000;
-  const diffDays = Math.floor((date - anchorDate) / msPerDay);
-  // Anchor is index 0, so:
-  const idx = ((diffDays % cycle.length) + cycle.length) % cycle.length;
+  const aUtc = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+  const bUtc = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+  return Math.floor((bUtc - aUtc) / msPerDay);
+}
+
+function getCycleIndexForDate(date) {
+  const diffDays = daysBetween(anchorDate, date);
+  const len = cycle.length;
+  const idx = ((anchorDayIndex + diffDays) % len + len) % len;
   return idx;
 }
 
-// Map block to readable name
 function blockToName(block) {
   switch (block) {
     case "beast":
@@ -286,21 +288,75 @@ function blockToName(block) {
   }
 }
 
-// Map stream type to human-facing string
-function streamDescription(day) {
-  if (day.stream === "none") return "No stream planned.";
-  if (day.stream === "full-day")
-    return "Full stream day. Day or night stream, depending on schedule.";
-  if (day.stream === "full-night")
-    return "Post-shift night stream.";
-  if (day.stream === "optional-day")
-    return "Optional daytime stream window.";
-  if (day.stream === "optional-night")
-    return "Optional night stream.";
-  return "";
+function streamSummary(day) {
+  switch (day.stream) {
+    case "none":
+      return "No stream planned today.";
+    case "full-day":
+      return "Full stream day.";
+    case "full-night":
+      return "Full stream (night stream).";
+    case "optional-day":
+      return "Possible stream day.";
+    case "optional-night":
+      return "Possible night stream.";
+    default:
+      return "";
+  }
 }
 
-// ----- Render "Today" card -----
+function blockToShortTag(block) {
+  switch (block) {
+    case "beast":
+      return "BEAST MODE WEEK";
+    case "grind":
+      return "GRIND WEEK";
+    case "cruise":
+      return "CRUISE WEEK";
+    case "rebuild":
+      return "REBUILD WEEK";
+    default:
+      return "CURRENT WEEK";
+  }
+}
+
+function blockToBestDays(block) {
+  switch (block) {
+    case "beast":
+      return "Best days to catch me this week: Friday through Tuesday.";
+    case "grind":
+      return "Best days to catch me this week: Tuesday, Wednesday, Thursday.";
+    case "cruise":
+      return "Best days to catch me this week: Friday, Saturday, Monday, and Tuesday.";
+    case "rebuild":
+      return "Best day to catch me this week: Monday.";
+    default:
+      return "";
+  }
+}
+
+function updateHeroForBlock(block) {
+  const btn = document.getElementById("hero-week-btn");
+  const bestEl = document.getElementById("hero-best-days");
+
+  if (btn) {
+    btn.textContent = blockToShortTag(block);
+    btn.classList.remove(
+      "primary-btn--beast",
+      "primary-btn--grind",
+      "primary-btn--cruise",
+      "primary-btn--rebuild"
+    );
+    btn.classList.add(`primary-btn--${block}`);
+  }
+
+  if (bestEl) {
+    bestEl.textContent = blockToBestDays(block);
+  }
+}
+
+// ------- Today card -------
+
 function renderToday() {
   const today = new Date();
   const idx = getCycleIndexForDate(today);
@@ -309,46 +365,94 @@ function renderToday() {
   const todayDateEl = document.getElementById("today-date");
   const todayBlockEl = document.getElementById("today-block");
   const todayStreamEl = document.getElementById("today-stream-window");
+  const todayNoteExtraEl = document.getElementById("today-note-extra");
 
-  todayDateEl.textContent = formatDate(today);
-  todayBlockEl.textContent = `${blockToName(day.block)} – ${day.label}`;
-  todayStreamEl.textContent = `${streamDescription(day)} ${day.note}`;
+  if (todayDateEl) todayDateEl.textContent = formatDate(today);
+  if (todayBlockEl)
+    todayBlockEl.textContent = `${blockToName(day.block)} – ${day.weekday}`;
+  if (todayStreamEl) todayStreamEl.textContent = streamSummary(day);
+
+  // For full-day streams, no extra note (prevents duplicate phrasing)
+  if (todayNoteExtraEl) {
+    if (day.stream === "full-day") {
+      todayNoteExtraEl.textContent = "";
+    } else {
+      todayNoteExtraEl.textContent = day.note;
+    }
+  }
+
+  updateHeroForBlock(day.block);
 }
 
-// ----- Render rotation overview -----
+// ------- Overview blocks (viewer-friendly) -------
+
+const overviewBlocks = [
+  {
+    key: "grind",
+    title: "Grind Week",
+    label: "Week 1 of the rotation",
+    bullets: [
+      "Best days to catch me: Tuesday, Wednesday, Thursday.",
+      "Possible extra streams: Saturday and Monday during the day.",
+      "Overall vibe: steady, consistent week while I’m on nights.",
+    ],
+  },
+  {
+    key: "rebuild",
+    title: "Rebuild Week",
+    label: "Week 2 of the rotation",
+    bullets: [
+      "Best day to catch me will be Monday.",
+      "Very light week. Most days are for sleep and recovery.",
+      "If you see me go live here, it’s a bonus week, not the norm.",
+    ],
+  },
+  {
+    key: "cruise",
+    title: "Cruise Week",
+    label: "Week 3 of the rotation",
+    bullets: [
+      "Best days to catch me: Friday, Saturday, Monday, and Tuesday.",
+      "Mix of off days and post-work night streams, consistent but not as wild as Beast Mode.",
+      "Great for chill sessions, catching up on games, and hanging out.",
+    ],
+  },
+  {
+    key: "beast",
+    title: "Beast Mode Week",
+    label: "Week 4 of the rotation",
+    bullets: [
+      "Best days to catch me: Friday through Tuesday.",
+      "This is the big content push! Events, collabs, long streams, and surprises.",
+      "Expect the most activity, the most energy, and the most chaos!",
+    ],
+  },
+];
+
 function renderRotationOverview() {
   const container = document.getElementById("rotation-grid");
+  if (!container) return;
+
   container.innerHTML = "";
 
-  // Group by block type
-  const blocks = ["beast", "grind", "cruise", "rebuild"];
-
-  blocks.forEach((blk) => {
-    const blockDays = cycle.filter((d) => d.block === blk);
-
+  overviewBlocks.forEach((blk) => {
     const card = document.createElement("div");
-    card.className = `block-card block--${blk}`;
+    card.className = `block-card block--${blk.key}`;
 
     const label = document.createElement("div");
     label.className = "block-label";
-    label.textContent = blockToName(blk);
+    label.textContent = blk.label;
 
     const title = document.createElement("div");
     title.className = "block-title";
-    title.textContent = `${blockDays.length} days in this rotation`;
+    title.textContent = blk.title;
 
     const list = document.createElement("div");
     list.className = "day-list";
 
-    blockDays.forEach((d) => {
+    blk.bullets.forEach((b) => {
       const line = document.createElement("div");
-      const streamTag =
-        d.stream === "none"
-          ? "No stream"
-          : d.stream.startsWith("optional")
-          ? "Optional"
-          : "Full";
-      line.textContent = `${d.weekday}: ${streamTag} – ${d.note}`;
+      line.textContent = `• ${b}`;
       list.appendChild(line);
     });
 
@@ -359,5 +463,17 @@ function renderRotationOverview() {
   });
 }
 
+// ------- Footer year -------
+
+function renderFooterYear() {
+  const el = document.getElementById("footer-year");
+  if (el) {
+    el.textContent = new Date().getFullYear();
+  }
+}
+
+// ------- Init -------
+
 renderToday();
 renderRotationOverview();
+renderFooterYear();
