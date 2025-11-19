@@ -508,20 +508,32 @@ async function checkLiveStatus() {
 
     const data = await res.json();
     const pill = document.getElementById("live-indicator");
+    const liveInline = document.getElementById("live-inline-note");
 
-    if (!pill) return;
+    const isLive = !!data.live;
 
-    if (data.live) {
-      pill.classList.add("live-active");
-      pill.textContent = "Live now on Twitch";
-    } else {
-      pill.classList.remove("live-active");
-      pill.textContent = "";
+    if (pill) {
+      if (isLive) {
+        pill.classList.add("live-active");
+        pill.textContent = "Live now on Twitch";
+      } else {
+        pill.classList.remove("live-active");
+        pill.textContent = "";
+      }
+    }
+
+    if (liveInline) {
+      if (isLive) {
+        liveInline.textContent = "I am live right now on Twitch.";
+      } else {
+        liveInline.textContent = "";
+      }
     }
   } catch (err) {
     console.error("Error checking live status:", err);
   }
 }
+
 
 checkLiveStatus();
 setInterval(checkLiveStatus, 20000);

@@ -226,6 +226,12 @@ main {
   color: var(--text-muted);
   font-size: 0.9rem;
 }
+.live-inline-note {
+  margin-top: 0.25rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent-primary);
+}
 
 .today-block {
   margin-top: 0.15rem;
