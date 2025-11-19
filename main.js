@@ -524,12 +524,9 @@ async function checkLiveStatus() {
 }
 
 checkLiveStatus();
-setInterval(checkLiveStatus, 60000);
+setInterval(checkLiveStatus, 20000);
 
 renderToday();
 renderRotationOverview();
 renderFooterYear();
-
-renderToday();
-renderRotationOverview();
-renderFooterYear();
+// End of main.js
