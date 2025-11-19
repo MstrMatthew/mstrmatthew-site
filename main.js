@@ -287,15 +287,14 @@ function blockToName(block) {
       return "";
   }
 }
-
 function streamSummary(day) {
   switch (day.stream) {
     case "none":
       return "No stream planned today.";
     case "full-day":
-      return "Full stream day.";
+      return "Planned stream day.";
     case "full-night":
-      return "Full stream (night stream).";
+      return "Planned night stream.";
     case "optional-day":
       return "Possible stream day.";
     case "optional-night":
@@ -304,6 +303,8 @@ function streamSummary(day) {
       return "";
   }
 }
+
+
 
 function blockToShortTag(block) {
   switch (block) {
@@ -356,7 +357,6 @@ function updateHeroForBlock(block) {
 }
 
 // ------- Today card -------
-
 function renderToday() {
   const today = new Date();
   const idx = getCycleIndexForDate(today);
@@ -372,17 +372,43 @@ function renderToday() {
     todayBlockEl.textContent = `${blockToName(day.block)} – ${day.weekday}`;
   if (todayStreamEl) todayStreamEl.textContent = streamSummary(day);
 
-  // For full-day streams, no extra note (prevents duplicate phrasing)
+  // Second line: explain what that means in plain language
   if (todayNoteExtraEl) {
+    let extra = "";
+
     if (day.stream === "full-day") {
-      todayNoteExtraEl.textContent = "";
+      if (day.block === "beast") {
+        extra = "Full Beast Mode today. I will be live a lot. Do not miss it.";
+      } else {
+        extra = "Be looking for me all day. I will be on as much and as long as possible.";
+      }
+    } else if (day.stream === "full-night") {
+      extra = "Post shift stream. Expected window is 8pm to 10pm, and it may go longer if I am off tomorrow.";
+    } else if (day.stream === "optional-day") {
+      extra = "Possible daytime stream. Window is usually 12pm to 3pm.";
+    } else if (day.stream === "optional-night") {
+      extra = "Possible night stream. Window is usually 8pm to 10pm.";
     } else {
-      todayNoteExtraEl.textContent = day.note;
+      extra = day.note || "";
     }
+
+    todayNoteExtraEl.textContent = extra;
   }
 
   updateHeroForBlock(day.block);
+
+  // Toggle Beast Mode styling on the whole page
+  if (typeof document !== "undefined") {
+    if (day.block === "beast") {
+      document.body.classList.add("beast-mode-active");
+    } else {
+      document.body.classList.remove("beast-mode-active");
+    }
+  }
 }
+
+
+
 
 // ------- Overview blocks (viewer-friendly) -------
 
@@ -473,6 +499,36 @@ function renderFooterYear() {
 }
 
 // ------- Init -------
+async function checkLiveStatus() {
+  try {
+    const res = await fetch("/.netlify/functions/check-twitch");
+    if (!res.ok) {
+      throw new Error("Bad response from live status function");
+    }
+
+    const data = await res.json();
+    const pill = document.getElementById("live-indicator");
+
+    if (!pill) return;
+
+    if (data.live) {
+      pill.classList.add("live-active");
+      pill.textContent = "Live now on Twitch";
+    } else {
+      pill.classList.remove("live-active");
+      pill.textContent = "";
+    }
+  } catch (err) {
+    console.error("Error checking live status:", err);
+  }
+}
+
+checkLiveStatus();
+setInterval(checkLiveStatus, 60000);
+
+renderToday();
+renderRotationOverview();
+renderFooterYear();
 
 renderToday();
 renderRotationOverview();

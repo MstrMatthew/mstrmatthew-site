@@ -8,19 +8,26 @@
 </head>
 <body>
   <header class="top-nav">
-    <div class="nav-inner">
-      <div class="nav-brand">
-        <span class="brand-mark">MM</span>
-        <span class="brand-text">MstrMatthew</span>
-      </div>
-      <nav class="nav-links">
-        <a href="#hero">Home</a>
-        <a href="#current-block">Today</a>
-        <a href="#rotation-overview">Rotation</a>
-        <a href="#links">Links</a>
-      </nav>
+  <div class="nav-inner">
+    <div class="nav-brand">
+      <span class="brand-mark">MM</span>
+      <span class="brand-text">MstrMatthew</span>
     </div>
-  </header>
+    <nav class="nav-links">
+      <a href="#hero">Home</a>
+      <a href="#current-block">Today</a>
+      <a href="#rotation-overview">Rotation</a>
+      <a href="#links">Links</a>
+    </nav>
+    <a
+      id="live-indicator"
+      href="https://twitch.tv/mstrmatthew"
+      target="_blank"
+      rel="noreferrer"
+      class="live-pill"
+    ></a>
+  </div>
+</header>
 
   <main>
     <!-- Hero / Intro -->
@@ -58,10 +65,10 @@
     <section id="rotation-overview" class="section">
       <div class="card">
         <h2>28-Day Rotation Overview</h2>
-        <p class="section-sub">
-          Each block syncs with my actual work schedule (days, nights, and days off).
-          Stream windows are shown as <strong>Full</strong>, <strong>Optional</strong>, or <strong>No Stream</strong>.
-        </p>
+       <p class="section-intro">
+  Here’s how my month usually plays out. Each week in the rotation has different stream days, different energy, and different expectations.
+</p>
+
         <div id="rotation-grid"></div>
       </div>
     </section>
