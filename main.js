@@ -454,6 +454,24 @@ const overviewBlocks = [
     ],
   },
 ];
+function getBlockIcon(key) {
+  switch (key) {
+    case "beast":
+      // claw mark
+      return `<svg viewBox="0 0 24 24"><path fill="currentColor" d="M3 12l3-2 2 2 2-4 3 3 4-6 4 3-6 12-5-5-2 4-5-7z"/></svg>`;
+    case "grind":
+      // gear
+      return `<svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2l2 2 3-1 1 3 3 1-1 3 2 2-2 2 1 3-3 1-1 3-3-1-2 2-2-2-3 1-1-3-3-1 1-3-2-2 2-2-1-3 3-1 1-3 3 1 2-2z"/></svg>`;
+    case "cruise":
+      // wave
+      return `<svg viewBox="0 0 24 24"><path fill="currentColor" d="M2 16c4 0 4-4 8-4s4 4 8 4 4-4 8-4v6H2v-2z"/></svg>`;
+    case "rebuild":
+      // refresh cycle
+      return `<svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 1 9 6h-3a7 7 0 0 0-13 3H2a10 10 0 0 1 10-9zm-9 12h3a7 7 0 0 0 13-3h3a10 10 0 0 1-19 3z"/></svg>`;
+    default:
+      return "";
+  }
+}
 
 function renderRotationOverview() {
   const container = document.getElementById("rotation-grid");
@@ -470,8 +488,16 @@ function renderRotationOverview() {
     label.textContent = blk.label;
 
     const title = document.createElement("div");
-    title.className = "block-title";
-    title.textContent = blk.title;
+title.className = "block-title";
+
+// Add icon for each block
+const icon = document.createElement("div");
+icon.className = `week-icon week-icon--${blk.key}`;
+icon.innerHTML = getBlockIcon(blk.key);
+
+title.appendChild(icon);
+title.appendChild(document.createTextNode(blk.title));
+
 
     const list = document.createElement("div");
     list.className = "day-list";
@@ -509,19 +535,33 @@ async function checkLiveStatus() {
     const data = await res.json();
     const pill = document.getElementById("live-indicator");
     const liveInline = document.getElementById("live-inline-note");
+    const liveBig = document.getElementById("live-big-banner");
 
     const isLive = !!data.live;
 
+    // Header pill
     if (pill) {
       if (isLive) {
         pill.classList.add("live-active");
-        pill.textContent = "Live now on Twitch";
+        pill.textContent = "LIVE NOW — Watch Stream";
       } else {
         pill.classList.remove("live-active");
         pill.textContent = "";
       }
     }
 
+    // Big hype banner in Today card
+    if (liveBig) {
+      if (isLive) {
+        liveBig.classList.add("live-big-active");
+        liveBig.textContent = "🚨 LIVE RIGHT NOW — CLICK TO WATCH 🚨";
+      } else {
+        liveBig.classList.remove("live-big-active");
+        liveBig.textContent = "";
+      }
+    }
+
+    // Inline text under Today card
     if (liveInline) {
       if (isLive) {
         liveInline.textContent = "I am live right now on Twitch.";
@@ -541,4 +581,56 @@ setInterval(checkLiveStatus, 20000);
 renderToday();
 renderRotationOverview();
 renderFooterYear();
+
+// ------- Theme Toggle -------
+const themeToggle = document.getElementById("theme-toggle");
+const themeIcon = document.getElementById("theme-icon");
+
+// Load saved theme OR system preference
+function loadTheme() {
+  const saved = localStorage.getItem("theme");
+  if (saved) {
+    if (saved === "light") {
+      document.body.classList.add("light-mode");
+      setIcon("moon");
+    } else {
+      setIcon("sun");
+    }
+    return;
+  }
+
+  // Default to system preference
+  const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
+  if (prefersLight) {
+    document.body.classList.add("light-mode");
+    setIcon("moon");
+  } else {
+    setIcon("sun");
+  }
+}
+
+// Switch sun/moon icons
+function setIcon(type) {
+  if (type === "moon") {
+    themeIcon.innerHTML = `
+      <path fill="currentColor" d="M9.5 2A7.5 7.5 0 1 0 17 14.5 6.5 6.5 0 0 1 9.5 2z"/>
+    `;
+  } else {
+    themeIcon.innerHTML = `
+      <path fill="currentColor" d="M12 4.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm0 12a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm7.5-6a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-12 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm9.096 5.596a1.5 1.5 0 1 1-2.122 2.122 1.5 1.5 0 0 1 2.122-2.122zM7.026 7.026a1.5 1.5 0 1 1-2.122 2.122 1.5 1.5 0 0 1 2.122-2.122zm9.948-2.122a1.5 1.5 0 1 1-2.122 2.122 1.5 1.5 0 0 1 2.122-2.122zM7.026 14.974a1.5 1.5 0 1 1-2.122 2.122 1.5 1.5 0 0 1 2.122-2.122z"/>
+    `;
+  }
+}
+
+// Toggle theme
+themeToggle.addEventListener("click", () => {
+  const isLight = document.body.classList.toggle("light-mode");
+  localStorage.setItem("theme", isLight ? "light" : "dark");
+  setIcon(isLight ? "moon" : "sun");
+});
+
+// Initialize
+loadTheme();
+
+
 // End of main.js
